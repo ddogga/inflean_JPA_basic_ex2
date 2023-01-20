@@ -21,29 +21,38 @@ public class JpaMain {
             team.setName("teamA");
             em.persist(team);
 
-            Member member = new Member();
-            member.setUserName(null);
-            member.setUserName("관리자");
-            member.setAge(10);
-            member.setType(MemberType.ADMIN);
+            Member member1 = new Member();
+            member1.setUserName("관리자1");
+            member1.setTeam(team);
+            em.persist(member1);
 
-            member.setTeam(team);
-
-            em.persist(member);
+            Member member2 = new Member();
+            member2.setUserName("관리자1");
+            member2.setTeam(team);
+            em.persist(member2);
 
 
             em.flush();
             em.clear();
 
-            String query = "select coalesce(m.username, '이름 없는 회원') from Member m ";
-            //String query = "select nullif(m.username, '관리자') from Member m ";
+            //상태 필드
+            String query = "select m.username From Member m ";
+            //단일 값 연관 경로
+            String query2 = "select m.team.name From Member m ";
+            //컬렉션 값 연관 경로
+            String query3 = "select t.members.size From Team t ";
+
+            Integer result = em.createQuery(query3, Integer.class)
+                    .getSingleResult();
+
+            System.out.println("result = " + result);
             
-            List<String> result = em.createQuery(query, String.class)
-                            .getResultList();
-            
-            for (String s: result) {
-                System.out.println("s = " + s);
-            }
+//            List<String> result = em.createQuery(query, String.class)
+//                            .getResultList();
+//
+//            for (String s: result) {
+//                System.out.println("s = " + s);
+//            }
 
            tx.commit();
 
