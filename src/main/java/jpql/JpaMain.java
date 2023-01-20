@@ -17,41 +17,31 @@ public class JpaMain {
 
         try {
 
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member = new Member();
             member.setUserName("member1");
             member.setAge(10);
+
+            member.setTeam(team);
+
             em.persist(member);
+
 
             em.flush();
             em.clear();
 
+            //inner join
+//            String query = "select m from Member m join m.team t";
+            //outer join
+//            String query = "select m from Member m left join m.team t";
+            //cross join (세타 조인)
+            String query = "select m from Member m, Team t where m.username = t.name";
 
-            // Object[] 타입으로 변환
-            List resultList = em.createQuery("select m.username, m.age from Member m")
+            List<Member> result = em.createQuery(query, Member.class)
                     .getResultList();
-
-            Object o = resultList.get(0);
-            Object[] result = (Object[]) o;
-            System.out.println("username = " + result[0]);
-            System.out.println("age = " + result[1]);
-
-            // Object[] 타입으로 조회
-            List<Object[]> resultList1= em.createQuery("select m.username, m.age from Member m")
-                    .getResultList();
-
-            Object[] result1 = resultList1.get(0);
-            System.out.println("username = " + result1[0]);
-            System.out.println("age = " + result1[1]);
-
-
-            //new 명령어로 조회
-            List<MemberDTO> resultList2= em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m, MemberDTO.class")
-                    .getResultList();
-
-            MemberDTO memberDTO = resultList2.get(0);
-            System.out.println("memberDTO = " + memberDTO.getUsername());
-            System.out.println("memberDTO = " + memberDTO.getAge());
-
 
            tx.commit();
 
