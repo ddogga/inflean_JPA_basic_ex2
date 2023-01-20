@@ -25,14 +25,24 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            List<Member> result = em.createQuery("select m from Member m", Member.class)
+            // 엔티티 프로젝션
+            List<Member> result1 = em.createQuery("select m from Member m", Member.class)
                     .getResultList();
 
-            Member findMember = result.get(0);
-            findMember.setAge(20);
+            //(참조(?))엔티티 프로젝션
+            List<Team> result2 = em.createQuery("select m.team from Member m join m.team", Team.class)
+                    .getResultList();
+
+            //임베디드 타입 프로젝션
+            em.createQuery("select o.address from Order o", Address.class)
+                    .getResultList();
+
+            //스칼라 타입 프로젝션
+            em.createQuery("select m.username, m.age from Member m")
+                    .getResultList();
 
 
-            tx.commit();
+           tx.commit();
 
 
         } catch (Exception e) {
