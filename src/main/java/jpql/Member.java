@@ -7,7 +7,7 @@ public class Member {
 
     @Id @GeneratedValue
     private Long Id;
-    private String userName;
+    private String username;
     private int age;
 
     @ManyToOne
@@ -24,11 +24,11 @@ public class Member {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public int getAge() {
