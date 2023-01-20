@@ -24,6 +24,7 @@ public class JpaMain {
             Member member = new Member();
             member.setUserName("member1");
             member.setAge(10);
+            member.setType(MemberType.ADMIN);
 
             member.setTeam(team);
 
@@ -33,14 +34,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            //inner join
-//            String query = "select m from Member m join m.team t";
-            //outer join
-//            String query = "select m from Member m left join m.team t";
-            //cross join (세타 조인)
-            String query = "select m from Member m, Team t where m.username = t.name";
+            // enum 타입을 조건으로 검색 -> 아래와 같이 enum명과 패키지까지 다 적어 줘야 함.
+            String query = "select m from Member m " +
+                    "where m.type = :userType";
 
-            List<Member> result = em.createQuery(query, Member.class)
+            List<Object[]> result = em.createQuery(query)
+                    .setParameter("userType", MemberType.ADMIN)
                     .getResultList();
 
            tx.commit();
