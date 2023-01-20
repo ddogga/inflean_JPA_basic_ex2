@@ -22,17 +22,14 @@ public class JpaMain {
             member.setAge(10);
             em.persist(member);
 
-//            TypedQuery<Member> query = em.createQuery("select m from Member m where m.username = :username", Member.class);
-//            query.setParameter("username","member1");
-//            Member singleResult = query.getSingleResult();
-//            System.out.println("singleResult = " + singleResult.getUserName());
+            em.flush();
+            em.clear();
 
-            //체이닝 표현
-            Member result = em.createQuery("select m from Member m where m.username = :username", Member.class)
-                    .setParameter("username","member1")
-                    .getSingleResult();
+            List<Member> result = em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
 
-            System.out.println("result = " + result.getUserName());
+            Member findMember = result.get(0);
+            findMember.setAge(20);
 
 
             tx.commit();
