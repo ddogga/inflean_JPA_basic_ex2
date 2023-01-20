@@ -22,8 +22,18 @@ public class JpaMain {
             member.setAge(10);
             em.persist(member);
 
-            TypedQuery<Member> query1 = em.createQuery("select m from Member m", Member.class);
-            Query query = em.createQuery("select m.username, m.age from Member m");
+//            TypedQuery<Member> query = em.createQuery("select m from Member m", Member.class);
+//            List<Member> resultList = query.getResultList();
+//
+//            for (Member mbmer1 : resultList) {
+//                System.out.println("mbmer1 = " + mbmer1);
+//            }
+
+            //값이 하나만 있는 경우
+            TypedQuery<Member> query = em.createQuery("select m from Member m where m.id = 10L", Member.class);
+
+            Member result = query.getSingleResult();
+            System.out.println("result = " + result);
 
             tx.commit();
 
