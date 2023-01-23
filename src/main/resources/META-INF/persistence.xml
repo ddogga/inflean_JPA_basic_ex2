@@ -17,6 +17,10 @@
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create" />
+
+            <!-- 페치의 배치 사이즈를 글로벌로 설정 -->
+            <!-- 배치 사이즈를 설정하면 컬렉션을 페치 조인 할때 발생하는 n+1의 쿼리 문제를 해결할 수 있음. -->
+            <property name="hibernate.default_batch_fetch_size" value="100" />
         </properties>
     </persistence-unit>
 </persistence>
