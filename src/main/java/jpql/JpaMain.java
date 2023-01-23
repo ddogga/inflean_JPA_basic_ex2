@@ -43,15 +43,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m From Member m join fetch m.team";
+            String query = "select t From Team t join fetch t.members";
 
-            List<Member> result = em.createQuery(query,Member.class).getResultList();
+            List<Team> result = em.createQuery(query,Team.class).getResultList();
 
-            for (Member member : result) {
-                System.out.println("member = " + member.getUserName() + "," + member.getTeam().getName());
-
-                //조회 횟수 N+1
-                //회원 100일 경우 -> 100 + 1
+            for (Team team : result) {
+                System.out.println("team = " + team.getName() + "|members=" + team.getMembers().size());
             }
 
 
