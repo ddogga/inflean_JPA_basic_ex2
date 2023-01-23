@@ -36,6 +36,10 @@ public class Member {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void setUserName(String username) {
         this.username = username;
     }
